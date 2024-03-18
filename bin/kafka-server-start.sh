@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTES: IF NO ARGUMENTS (LESS THAN 1), PRINTS OUT USAGE INSTRUCTIONS
 if [ $# -lt 1 ];
 then
 	echo "USAGE: $0 [-daemon] server.properties [--override property=value]*"
@@ -21,10 +22,12 @@ then
 fi
 base_dir=$(dirname $0)
 
+# SET LOG4J OPTIONS IF NOT BEING SET
 if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
     export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$base_dir/../config/log4j.properties"
 fi
 
+# SET HEAP OPTIONS IF NOT BEING SET (MAXIMUM 1G, INITIAL HEAP 1G)
 if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
     export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 fi

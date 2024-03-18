@@ -942,6 +942,9 @@ project(':core') {
     // ZooKeeperMain depends on commons-cli but declares the dependency as `provided`
     implementation libs.commonsCli
 
+    // implementation 'io.circe:circe-core_2.13:0.14.1'
+    // implementation 'io.circe:circe-generic_2.13:0.14.1'
+
     compileOnly libs.log4j
 
     testImplementation project(':clients').sourceSets.test.output

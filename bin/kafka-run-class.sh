@@ -14,12 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTES: IF NO ARGUMENTS (LESS THAN 1), PRINTS OUT USAGE INSTRUCTIONS
 if [ $# -lt 1 ];
 then
   echo "USAGE: $0 [-daemon] [-name servicename] [-loggc] classname [opts]"
   exit 1
 fi
 
+# NOTES: CHECK OS, IF CYGWIN OR MINGW OR MSYS, WINDOWS_OS_FORMAT=1, ELSE WINDOWS_OS_FORMAT=0
 # WINDOWS_OS_FORMAT == 1 if Cygwin or MinGW is detected, else 0.
 if [[ $(uname -a) =~ "CYGWIN" || $(uname -a) =~ "MINGW" || $(uname -a) =~ "MSYS" ]]; then
   WINDOWS_OS_FORMAT=1
@@ -28,6 +30,7 @@ else
   WINDOWS_OS_FORMAT=0
 fi
 
+# NOTES: IF $INCLUDE_TEST_JARS IS NOT INITIALIZED, SET TO false
 if [ -z "$INCLUDE_TEST_JARS" ]; then
   INCLUDE_TEST_JARS=false
 fi
@@ -310,6 +313,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
+# NOTES: GARBAGE COLLECTION LOGGING OPTIONS
 # GC options
 GC_FILE_SUFFIX='-gc.log'
 GC_LOG_FILE_NAME=''
@@ -339,6 +343,19 @@ CLASSPATH=${CLASSPATH#:}
 
 # If Cygwin is detected, classpath is converted to Windows format.
 (( WINDOWS_OS_FORMAT )) && CLASSPATH=$(cygpath --path --mixed "${CLASSPATH}")
+
+echo "JAVA $JAVA"
+echo "KAFKA_HEAP_OPTS $KAFKA_HEAP_OPTS"
+echo "KAFKA_JVM_PERFORMANCE_OPTS $KAFKA_JVM_PERFORMANCE_OPTS"
+echo "KAFKA_GC_LOG_OPTS $KAFKA_GC_LOG_OPTS"
+echo "KAFKA_JMX_OPTS $KAFKA_JMX_OPTS"
+echo "KAFKA_LOG4J_CMD_OPTS $KAFKA_LOG4J_CMD_OPTS"
+echo "CLASSPATH $CLASSPATH"
+echo "KAFKA_OPTS $KAFKA_OPTS"
+
+for arg in "$@"; do
+    echo "arg: $arg"
+done
 
 # Launch mode
 if [ "x$DAEMON_MODE" = "xtrue" ]; then

@@ -14,4 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTES: RUN kafka-run-class.sh WITH kafka.tools.StorageTool AS Argument
+# NOTES: PASS ALL ARGUMENTS THAT PASSED TO THIS SCRIPT TO kafka-run-class.sh
 exec $(dirname $0)/kafka-run-class.sh kafka.tools.StorageTool "$@"
